@@ -1,0 +1,32 @@
+name: stw-mapping-library-ci
+
+
+resources:
+  repositories:
+  - repository: stw-mapping-library 
+    type: github
+    endpoint: DEFRA
+    name: DEFRA/stw-mapping-library
+
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+- checkout: stw-mapping-library
+
+- task: Powershell@2
+  inputs:
+    filepath: /home/vsts/work/1/s/stw-ops/scripts/hello-world.ps1
+
+# - task: Maven@3
+#   inputs:
+#     mavenPOMFile: '/home/vsts/work/1/s/stw-mapping-library/pom.xml'
+#     publishJUnitResults: false
+#     javaHomeOption: 'JDKVersion'
+#     mavenVersionOption: 'Default'
+
+
+#"Execute Maven build", script: "mvn -Drevision=$BUILD_VERSION -U -T 1C clean package install --settings ./settings.xml --no-transfer-progress -DskipTests")
