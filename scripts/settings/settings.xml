@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/SETTINGS/1.1.0"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+  <profiles>
+    <profile>
+      <id>artifactory</id>
+            <repositories>
+        <repository>
+          <id>central</id>
+          <name>repocentral</name>
+          <url>https://artifactory.azure.defra.cloud/artifactory/repocentral</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>releases-local</id>
+          <name>artifactory.azure.defra.cloud-releases</name>
+          <url>https://artifactoryv2.azure.defra.cloud/artifactory/maven-releases-local</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>jitpack.io</id>
+          <url>https://jitpack.io</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <id>central</id>
+          <name>repocentral</name>
+          <url>https://artifactoryv2.azure.defra.cloud/artifactory/repocentral</url>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>artifactory</activeProfile>
+  </activeProfiles>
+</settings>
