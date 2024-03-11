@@ -25,7 +25,6 @@ steps:
       azurePowerShellVersion: latestVersion
       targetType: "filePath"
       filePath: $(Agent.BuildDirectory)/s/stw-ops/scripts/mvn-build.ps1
-      arguments: -Tag ${{ parameters.jenkinsBuildID }}
       workingDirectory: "$(Agent.BuildDirectory)/s"
 
 # - task: Maven@3
