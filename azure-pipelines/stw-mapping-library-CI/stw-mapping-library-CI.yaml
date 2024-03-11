@@ -14,12 +14,19 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- checkout: self
-- checkout: stw-mapping-library
+  - checkout: self
+  - checkout: stw-mapping-library
 
-- task: Powershell@2
-  inputs:
-    filepath: /home/vsts/work/1/s/stw-ops/scripts/hello-world.ps1
+  - task: PowerShell@2
+    name: mvn
+    displayName: mvn clean install
+    inputs:
+      pwsh: true
+      azurePowerShellVersion: latestVersion
+      targetType: "filePath"
+      filePath: $(Agent.BuildDirectory)/s/stw-ops/scripts/mvn-build.ps1
+      arguments: -Tag ${{ parameters.jenkinsBuildID }}
+      workingDirectory: "$(Agent.BuildDirectory)/s"
 
 # - task: Maven@3
 #   inputs:
