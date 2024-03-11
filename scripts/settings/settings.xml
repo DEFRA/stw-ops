@@ -4,16 +4,6 @@
   xmlns="http://maven.apache.org/SETTINGS/1.1.0"
   xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
   <servers>
-    <server>
-      <username>ciaran.hasson</username>
-      <password>{gXIZT46cRucH008ZVlrR5miecalMYAzPE/aXFlSh5O8=}</password>
-      <id>central</id>
-    </server>
-    <server>
-      <username>ciaran.hasson</username>
-      <password>{gXIZT46cRucH008ZVlrR5miecalMYAzPE/aXFlSh5O8=}</password>
-      <id>snapshots</id>
-    </server>
   </servers>
   <profiles>
     <profile>
