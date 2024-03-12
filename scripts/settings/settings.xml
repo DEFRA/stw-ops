@@ -3,15 +3,19 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://maven.apache.org/SETTINGS/1.1.0"
   xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+  <properties>
+    <artifactory.username>ciaran.hasson</artifactory.username>
+    <artifactory.password>kFMKPcobm98HG+83jCAloA7pLyWYivx0XDCVEWxPzO8=</artifactory.password>
+  </properties>
   <servers>
     <server>
-      <username>eux-exp-sp</username>
-      <password>AP2rajbegmsZj3s7zsnKgm4JKFN2uy8kqmnu8kXXEq7xJd9EXnxrwWmLYxJd</password>
+      <username>${artifactory.username}</username>
+      <password>${artifactory.password}</password>
       <id>central</id>
     </server>
     <server>
-      <username>eux-exp-sp</username>
-      <password>AP2rajbegmsZj3s7zsnKgm4JKFN2uy8kqmnu8kXXEq7xJd9EXnxrwWmLYxJd</password>
+      <username>${artifactory.username}</username>
+      <password>${artifactory.password}</password>
       <id>snapshots</id>
     </server>
   </servers>
