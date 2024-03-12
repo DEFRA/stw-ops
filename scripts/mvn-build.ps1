@@ -8,7 +8,7 @@ param(
 #AGENT COMMANDS
 
 Set-Location .\stw-mapping-library
-mvn package -pl trade-mapping-to-ipaffs -am --settings /home/vsts/work/1/s/stw-ops/scripts/settings/settings.xml
+mvn clean install -pl trade-mapping-to-ipaffs -am --settings /home/vsts/work/1/s/stw-ops/scripts/settings/settings.xml
 
 
 #LOCAL COMMANDS
