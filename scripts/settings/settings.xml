@@ -4,6 +4,16 @@
   xmlns="http://maven.apache.org/SETTINGS/1.1.0"
   xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
   <servers>
+    <server>
+      <username>eux-exp-sp</username>
+      <password>AP2rajbegmsZj3s7zsnKgm4JKFN2uy8kqmnu8kXXEq7xJd9EXnxrwWmLYxJd</password>
+      <id>central</id>
+    </server>
+    <server>
+      <username>eux-exp-sp</username>
+      <password>AP2rajbegmsZj3s7zsnKgm4JKFN2uy8kqmnu8kXXEq7xJd9EXnxrwWmLYxJd</password>
+      <id>snapshots</id>
+    </server>
   </servers>
   <profiles>
     <profile>
