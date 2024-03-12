@@ -7,4 +7,6 @@ param(
 
 Set-Location .\stw-mapping-library
 
+curl -O https://artifactoryv2.azure.defra.cloud/artifactory/PLT-SNAPSHOT/settings.xml
+
 mvn clean install -pl trade-mapping-to-ipaffs -am --settings /home/vsts/work/1/s/stw-ops/scripts/settings/settings.xml
