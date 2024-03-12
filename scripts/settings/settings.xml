@@ -3,34 +3,25 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://maven.apache.org/SETTINGS/1.1.0"
   xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
-  <servers>
-    <server>
-      <username>ciaran.hasson</username>
-      <password>kFMKPcobm98HG+83jCAloA7pLyWYivx0XDCVEWxPzO8=</password>
-      <id>central</id>
-    </server>
-    <server>
-      <username>ciaran.hasson</username>
-      <password>kFMKPcobm98HG+83jCAloA7pLyWYivx0XDCVEWxPzO8=</password>
-      <id>snapshots</id>
-    </server>
-  </servers>
   <profiles>
     <profile>
-      <repositories>
+      <id>artifactory</id>
+            <repositories>
         <repository>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
           <id>central</id>
           <name>repocentral</name>
           <url>https://artifactory.azure.defra.cloud/artifactory/repocentral</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
         </repository>
         <repository>
-          <snapshots/>
-          <id>snapshots</id>
-          <name>repocentral</name>
-          <url>https://artifactory.azure.defra.cloud/artifactory/repocentral</url>
+          <id>releases-local</id>
+          <name>artifactory.azure.defra.cloud-releases</name>
+          <url>https://artifactoryv2.azure.defra.cloud/artifactory/maven-releases-local</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
         </repository>
         <repository>
           <id>jitpack.io</id>
@@ -47,16 +38,9 @@
           </snapshots>
           <id>central</id>
           <name>repocentral</name>
-          <url>https://artifactory.azure.defra.cloud/artifactory/repocentral</url>
-        </pluginRepository>
-        <pluginRepository>
-          <snapshots/>
-          <id>snapshots</id>
-          <name>repocentral</name>
-          <url>https://artifactory.azure.defra.cloud/artifactory/repocentral</url>
+          <url>https://artifactoryv2.azure.defra.cloud/artifactory/repocentral</url>
         </pluginRepository>
       </pluginRepositories>
-      <id>artifactory</id>
     </profile>
   </profiles>
   <activeProfiles>
