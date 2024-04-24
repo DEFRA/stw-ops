@@ -1,0 +1,10 @@
+variables:
+
+  serviceConnection: AZR-STW-DEV1
+  keyVaultName: DEVSTWINFVT1001
+
+
+  #Servicebus
+
+  serviceBusNamespaceName: DEVSTWINFSBS1001
+  serviceBusRGP: DEVSTWINFRG1001

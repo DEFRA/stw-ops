@@ -1,0 +1,9 @@
+variables:
+
+  tenantName: Defra
+
+  #ServiceBus
+  developerList: "reece.bennett,kamil.mojek,sean.treanor,joshua.higginson"
+  servicebusQueueSize: 2048
+  duplicationDetection: true
+  servicebusQueueTTL: P14D
