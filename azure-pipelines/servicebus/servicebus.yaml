@@ -1,0 +1,38 @@
+parameters:
+  - name: deployEnvironment
+    displayName: "Which environment to deploy into?"
+    type: string
+    default: "DEV"
+    values:
+      - "DEV"
+
+trigger: none
+
+variables:
+  - name: deployEnvironment
+    value: ${{ parameters.deployEnvironment }}
+  - ${{ if eq(parameters.deployEnvironment, 'DEV') }}:
+      - group: servicebus-dev
+
+
+steps:
+  - checkout: self
+
+  - task: AzureCLI@2
+    displayName: 'Deploy Bicep file'
+    inputs:
+      azureSubscription: AZR-STW-DEV1
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        # Creating a resource group
+        az group create \
+          --name $(serviceBusRGP) \
+          --location northeurope
+        # Deploying Bicep file
+        az deployment group create \
+          --name $(Build.BuildNumber) \
+          --resource-group $(serviceBusRGP) \
+          --template-file azure-pipelines/servicebus/servicebus.bicep \
+          --parameters azure-pipelines/servicebus/servicebus.parameters.$(deployEnvironment).json \
+          --parameters location='northeurope'

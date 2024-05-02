@@ -1,0 +1,88 @@
+parameters:
+  - name: CustomQueue
+    displayName: "True if you want to create a new queue(s). Multiple queues created by comma seperated list"
+    type: string
+    default: "false"
+    values:
+      - "true"
+      - "false"
+  - name: DeleteQueue
+    displayName: "True if you want to delete a queue(s). Multiple queues deleted by comma seperated list"
+    type: string
+    default: "false"
+    values:
+      - "true"
+      - "false"
+  - name: QueueNameList
+    displayName: "Specify comma seperated queue names here"
+    type: string
+    default: "blank"
+
+trigger: none
+
+schedules:
+  - cron: "0 0 * * 1"
+    displayName: Weekly midnight build.
+    branches:
+      include:
+        - main
+
+name: "DEFRA-STW-Developer-Queues-Creation-CD"
+
+variables:
+  - name: CUSTOM_QUEUE
+    value: ${{ parameters.CustomQueue }}
+  - name: DELETE_QUEUE
+    value: ${{ parameters.DeleteQueue }}
+  - name: CUSTOM_QUEUE_NAME_LIST
+    value: ${{ parameters.QueueNameList }}
+
+resources:
+  repositories:
+    - repository: PipelineCommon
+      name: DEFRA-DEVOPS-COMMON/Defra.Pipeline.Common
+      type: git
+      ref: refs/tags/Release-v6-latest
+
+extends:
+  template: /templates/pipelines/common-scripts-deploy.yaml@PipelineCommon
+  parameters:
+    keyVaultName: $(keyVaultName)
+    keyVaultSecretsFilter: tenantId, subscriptionId
+    forceDeploy: true
+    variableFiles:
+      - /azure-pipelines/vars/common.yaml@self
+      - /azure-pipelines/vars/{environment}.yaml@self
+    regionalVariableFiles:
+      - /azure-pipelines/vars/regional/{environment}-{region}.yaml@self
+    environments:
+      - name: "dev"
+        developmentEnvironment: True
+        azureRegions:
+          isSecondaryRegionDeploymentActive: false
+          primary: NorthEurope
+        tenantId: $(tenantId)
+        tenantName: $(tenantName)
+        subscriptionId: $(subscriptionId)
+        serviceConnection: AZR-STW-DEV1
+        deploymentBranches:
+          - "*"
+    scriptsList:
+      - displayName: Service Bus Queue Creation Script
+        type: AzureCLI
+        azurePowershellUseCore: AzurePowerShell
+        AzureCLIScriptType: pscore
+        scriptPath: azure-pipelines\scripts\developer-queues.ps1
+        filePathsForTransform: 
+          - azure-pipelines\scripts\developer-queues.ps1
+        scriptArguments: >
+          -RESOURCE_GROUP $(serviceBusRGP)
+          -NAME_SPACE $(serviceBusNamespaceName)
+          -developerList $(developerList)
+          -QUEUE_SIZE $(servicebusQueueSize)
+          -DUPLICATION_DETECTION $(duplicationDetection)
+          -QUEUE_TTL $(servicebusQueueTTL)
+          -CUSTOM_QUEUE $(CUSTOM_QUEUE)
+          -DELETE_QUEUE $(DELETE_QUEUE)
+          -CUSTOM_QUEUE_NAME_LIST $(CUSTOM_QUEUE_NAME_LIST)
+        failOnStandardError: false
