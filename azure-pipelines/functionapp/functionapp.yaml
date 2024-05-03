@@ -1,0 +1,44 @@
+name: "DEFRA-STW-Function-App-CD"
+
+trigger: none
+
+resources:
+  repositories:
+    - repository: PipelineCommon
+      name: DEFRA-DEVOPS-COMMON/Defra.Pipeline.Common
+      type: git
+      ref: refs/tags/Release-v6-latest
+
+extends:
+  template: /templates/pipelines/common-infrastructure-deploy.yaml@PipelineCommon
+  parameters:
+    keyVaultName: $(keyVaultName)
+    keyVaultSecretsFilter: tenantId, subscriptionId
+    projectName: STW
+    deployFromFeature: True
+    environments:
+      - name: "dev"
+        developmentEnvironment: True
+        azureRegions:
+          primary: NorthEurope
+        tenantId: $(tenantId)
+        tenantName: $(tenantName)
+        subscriptionId: $(subscriptionId)
+        serviceConnection: AZR-STW-DEV1
+        deploymentBranches:
+          - "*"
+    variableFiles:
+      - azure-pipelines/vars/common.yaml@self
+      - azure-pipelines/vars/regional/common-region/{environment}.yaml@self
+      - azure-pipelines/vars/{environment}.yaml@self
+    regionalVariableFiles:
+      - azure-pipelines/vars/regional/{environment}-{region}.yaml@self
+    groupedTemplates:
+      - name: groupedArmTemplates
+        ConnectedServiceName: AZR-STW-DEV1
+        templates:
+          - path: azure-pipelines/functionapp/
+            name: functionapp
+            type: "bicep"
+            scope: "Resource Group"
+            resourceGroupName: $(functionAppRG)

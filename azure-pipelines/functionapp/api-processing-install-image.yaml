@@ -1,0 +1,49 @@
+parameters:
+- name: deployTag
+  displayName: "Enter Docker Tag for image to be deployed"
+  type: string
+  default: '550186'
+
+trigger: none
+
+variables:
+  deployTag: ${{ parameters.deployTag }}
+
+resources:
+  repositories:
+    - repository: PipelineCommon
+      name: DEFRA-DEVOPS-COMMON/Defra.Pipeline.Common
+      type: git
+      ref: refs/tags/Release-v5-latest
+
+extends:
+  template: /templates/pipelines/common-scripts-deploy.yaml@PipelineCommon
+  parameters:
+    keyVaultName: $(keyVaultName)
+    keyVaultSecretsFilter: '*'
+    variableFiles:
+      - /azure-pipelines/vars/{environment}.yaml@self
+    regionalVariableFiles:
+      - /azure-pipelines/vars/regional/{region}.yaml@self
+    environments:
+      - name: 'dev'
+        azureRegions:
+          primary: northeurope
+        developmentEnvironment: true
+        deploymentBranches:
+          - '*'
+        serviceConnection: AZR-STW-DEV1
+    scriptsList:
+      - displayName: DockerPackage
+        type: AzureCLI
+        AzureCLIScriptType: pscore
+        scriptPath: azure-pipelines/scripts/docker-artifact-deploy.ps1
+        filePathsForTransform:
+          - azure-pipelines/scripts/docker-artifact-deploy.ps1.json
+        scriptArguments: >
+          -DEPLOY_TAG $(deployTag)
+          -DOCKER_SECRET $(DEVSTWINFACR1001-ADMIN-PASSWORD)
+          -ACR_REGISTRY_SERVER $(acrServerName)
+          -ACR_REGISTRY_USERNAME $(acrUsername)
+          -APP_NAME $(functionAppName)
+          -RESOURCE_GROUP $(functionAppRG)
