@@ -1,0 +1,58 @@
+name: STW-APIAPPS-Deployment
+
+parameters:
+  - name: deployToDevelopmentEnvironment
+    displayName: 'Deploy from Feature Branch'
+    type: boolean
+    default: false
+  - name: submissionDockerTagACR
+    displayName: 'Tag of stw-submission-api to deploy'
+    default: latest
+
+trigger: none
+
+pr: none
+
+resources:
+  repositories:
+    - repository: PipelineCommon
+      name: DEFRA-DEVOPS-COMMON/Defra.Pipeline.Common
+      type: git
+      ref: refs/tags/Release-v6-latest
+
+variables:
+  submissionDockerTagACR: ${{ parameters.submissionDockerTagACR }}
+
+extends:
+  template: /templates/pipelines/common-infrastructure-deploy.yaml@PipelineCommon
+  parameters:
+    projectName: STW
+    deployFromFeature: True
+    environments:
+      - name: 'dev'
+        developmentEnvironment: True
+        azureRegions:
+          isSecondaryRegionDeploymentActive: false
+          primary: NorthEurope
+        serviceConnection: 'AZR-STW-DEV1'
+        tenantId: $(tenantId)
+        tenantName: $(tenantName)
+        subscriptionId: $(subscriptionId)
+        deploymentBranches:
+          - '*'
+        outputTemplateChange: Skip
+
+    variableFiles:
+      - azure-pipelines/vars/common.yaml@self
+      - azure-pipelines/vars/{environment}.yaml@self
+    regionalVariableFiles:
+      - azure-pipelines/vars/regional/{environment}-{region}.yaml@self
+    groupedTemplates:
+      - name: deployApiApps
+        templates:
+          - path: azure-pipelines/apiapps/
+            name: apiapps
+            type: bicep
+            isDeployToSecondaryRegions: false
+            scope: 'Resource Group'
+            resourceGroupName: $(resourceGroup)
