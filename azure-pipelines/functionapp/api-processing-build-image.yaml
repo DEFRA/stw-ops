@@ -10,6 +10,8 @@ parameters:
 
 variables:
 
+- name: dockerRegistryServiceConnection
+  value: AZR-STW-DEV1
 - name: imageRepository
   value: 'stw-processing-api/stw-processing-api'
 - name: containerRegistry
