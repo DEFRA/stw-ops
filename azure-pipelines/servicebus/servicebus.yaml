@@ -8,6 +8,8 @@ parameters:
 
 trigger: none
 
+pr: none
+
 variables:
   - name: deployEnvironment
     value: ${{ parameters.deployEnvironment }}

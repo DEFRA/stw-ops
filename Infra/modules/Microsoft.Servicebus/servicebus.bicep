@@ -3,6 +3,8 @@ param serviceBusNamespaceName string
 
 param location string
 
+param tags object
+
 resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2022-01-01-preview' = {
   name: serviceBusNamespaceName
   location: location
@@ -10,4 +12,5 @@ resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2022-01-01-preview
     name: 'Standard'
   }
   properties: {}
+  tags: tags
 }

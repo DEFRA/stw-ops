@@ -1,0 +1,71 @@
+trigger:
+  - none
+
+pr: none
+
+parameters:
+- name: buildBranch
+  displayName: "Enter branch name from stw-processing-api repo"
+  type: string
+  default: main
+- name: buildMajor
+  displayName: "Major build version, default 0"
+  default: 0
+- name: buildMinor
+  displayName: "Minor build version, default 0"
+  default: 0
+
+name: ${{ parameters.buildMajor }}.${{ parameters.buildMinor }}.$(Rev:rrr)
+
+variables:
+
+- name: dockerRegistryServiceConnection
+  value: AZR-STW-DEV1
+- name: imageRepository
+  value: 'stw/stw-processing-api'
+- name: containerRegistry
+  value: 'devstwinfacr1001'
+- name: dockerfilePath
+  value: '$(Build.SourcesDirectory)/src/STW.ProcessingApi.Function/Dockerfile'
+- name: tag
+  value: '$(Build.buildid)'
+- name: vmImageName
+  value: 'ubuntu-latest'
+- name: branchName
+  value: ${{parameters.buildBranch}}
+
+
+resources:
+  repositories:
+    - repository: stw-processing-api
+      type: github
+      endpoint: DEFRA
+      name: DEFRA/stw-processing-api
+      ref: $(branchName)
+
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - checkout: stw-processing-api
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        buildContext: $(Build.SourcesDirectory)/src
+        dockerfile: $(dockerfilePath)
+        containerRegistry: DEV-ACR-SERVICE-CONNECTION
+        tags: |
+          $(tag),latest
+    - task: DotNetCoreCLI@2
+      displayName: 'Run Unit Tests'
+      inputs:
+        command: test
+        projects: '**/*[Uu]nit[Tt]ests/*.csproj'
+        publishTestResults: true
