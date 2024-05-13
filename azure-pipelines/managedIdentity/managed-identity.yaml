@@ -1,0 +1,35 @@
+trigger: none
+
+pr: none
+
+pool: 'DEFRA-COMMON-ubuntu2004-SSV3'
+
+resources:
+  repositories:
+    - repository: PipelineCommon
+      name: DEFRA-DEVOPS-COMMON/Defra.Pipeline.Common
+      type: git
+      ref: refs/tags/Release-v5-latest
+
+extends:
+  template: /templates/pipelines/common-scripts-deploy.yaml@PipelineCommon
+  parameters:
+    variableFiles:
+      - /azure-pipelines/vars/{environment}.yaml@self
+    regionalVariableFiles:
+      - /azure-pipelines/vars/regional/{region}.yaml@self
+    environments:
+      - name: 'dev'
+        azureRegions:
+          primary: northeurope
+        developmentEnvironment: true
+        deploymentBranches:
+          - '*'
+        serviceConnection: AZR-STW-DEV1
+    scriptsList:
+      - displayName: RoleAssignment
+        type: AzureCLI
+        AzureCLIScriptType: pscore
+        scriptPath: azure-pipelines/scripts/roleAssignment.ps1
+        filePathsForTransform:
+          - azure-pipelines/scripts/roleAssignment.ps1
