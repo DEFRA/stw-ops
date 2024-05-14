@@ -35,6 +35,9 @@ variables:
   submissionApiAppName: $(proj)-submission-api-$(envLower)
   submissionApiAppDockerImage: $(proj)/stw-submission-api
   submissionDockerTag: $(submissionDockerTagACR)
+  stubApiName: $(proj)-stub-api-$(envLower)
+  stubApiDockerImage: $(proj)/stw-stub-api
+  stubApiDockerTag: $(dockerTagStub)
 
   # App Service Plan
   appServicePlanName: devstwinfsp1001
