@@ -1,10 +1,14 @@
 variables:
   serviceConnection: AZR-STW-DEV1
   keyVaultName: DEVSTWINFVT1001
+  resourceGroup: DEVSTWINFRG1001
   keyVaultID: "/subscriptions/a4706f6f-a947-4849-b4d6-4b0c223f202c/resourceGroups/DEVSTWVTRG1001/providers/Microsoft.KeyVault/vaults/DEVSTWINFVT1001"
   managedIdentityName: DEVSTWINFMI1001
   Location: 'northeurope'
-  env: 'DEV'
+  env: DEV
+  envLower: dev
+  serviceCode: STW
+  proj: stw
 
   #ACR
   acrName: DEVSTWINFACR1001
@@ -12,19 +16,26 @@ variables:
   acrServerName: devstwinfacr1001.azurecr.io
   acrUsername: DEVSTWINFACR1001
 
-
   #Servicebus
-
   serviceBusNamespaceName: DEVSTWINFSBS1001
   serviceBusRGP: DEVSTWINFRG1001
 
+  # Application Insights
+  applicationInsightsName: devstwinfai1001
+  logAnalyticsNamespaceName: devstwinfla1001
 
   #FunctionApp
-
   functionAppRG: DEVSTWINFRG1001
   functionAppName: DEVSTWINFFA1001
   hostingPlanName: stw-service-plan-function-1-dev
   storageAccountName: devstwinfst1001
   ServiceBusConnectionString: stw-processing-api-queue-connectionstring
 
+  # API App
+  submissionApiAppName: $(proj)-submission-api-$(envLower)
+  submissionApiAppDockerImage: $(proj)/stw-submission-api
+  submissionDockerTag: $(submissionDockerTagACR)
 
+  # App Service Plan
+  appServicePlanName: devstwinfsp1001
+  sku: P1v3

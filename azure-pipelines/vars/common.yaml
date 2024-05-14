@@ -1,5 +1,9 @@
 variables:
-
+  #Build version
+  Major: 0
+  Minor: 0
+  buildVersion: "${{ variables.Major }}.${{ variables.Minor }}"
+  
   tenantName: Defra
 
   #ServiceBus
@@ -7,3 +11,8 @@ variables:
   servicebusQueueSize: 2048
   duplicationDetection: true
   servicebusQueueTTL: P14D
+
+  # Application Insights
+  workspaceSKU: "PerGB2018"
+  workspaceRetention: 30
+  workspaceDailyQuota: -1
