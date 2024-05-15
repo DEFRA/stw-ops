@@ -1,0 +1,37 @@
+name: stw-mapping-library-ci
+
+
+resources:
+  repositories:
+  - repository: stw-mapping-library 
+    type: github
+    endpoint: DEFRA
+    name: DEFRA/stw-mapping-library
+
+trigger: none
+
+pool: 'DEFRA-COMMON-ubuntu2004-SSV3'
+
+steps:
+  - checkout: self
+  - checkout: stw-mapping-library
+
+  # - task: PowerShell@2
+  #   name: mvn
+  #   displayName: mvn clean install
+  #   inputs:
+  #     pwsh: true
+  #     azurePowerShellVersion: latestVersion
+  #     targetType: "filePath"
+  #     filePath: $(Agent.BuildDirectory)/s/stw-ops/scripts/mvn-build.ps1
+  #     workingDirectory: "$(Agent.BuildDirectory)/s"
+
+  - task: Maven@4
+    inputs:
+      mavenPOMFile: './stw-mapping-library/pom.xml'
+      publishJUnitResults: false
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17' #switch to JDK 17
+      jdkArchitectureOption: 'x64'
+      mavenVersionOption: 'Default'
+      options: '-s ./stw-ops/scripts/settings/settings.xml' #use our settings.xml to point to Defra artifactory
