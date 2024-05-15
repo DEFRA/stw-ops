@@ -8,6 +8,9 @@ parameters:
   - name: submissionDockerTagACR
     displayName: 'Tag of stw-submission-api to deploy'
     default: latest
+  - name: dockerTagStub
+    displayName: 'Tag of stw-stub to deploy'
+    default: latest
 
 trigger: none
 
@@ -22,6 +25,7 @@ resources:
 
 variables:
   submissionDockerTagACR: ${{ parameters.submissionDockerTagACR }}
+  dockerTagStub: ${{ parameters.dockerTagStub }}
 
 extends:
   template: /templates/pipelines/common-infrastructure-deploy.yaml@PipelineCommon
