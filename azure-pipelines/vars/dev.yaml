@@ -15,6 +15,7 @@ variables:
   acrRG: DEVSTWINFRG1001
   acrServerName: devstwinfacr1001.azurecr.io
   acrUsername: DEVSTWINFACR1001
+  identityRole: AcrPull
 
   #Servicebus
   serviceBusNamespaceName: DEVSTWINFSBS1001
@@ -26,11 +27,12 @@ variables:
 
   #FunctionApp
   functionAppRG: DEVSTWINFRG1001
-  functionAppName: DEVSTWINFFA1001
+  functionAppName: $(proj)-processing-function-$(envLower)
   hostingPlanName: stw-service-plan-function-1-dev
   storageAccountName: devstwinfst1001
   ServiceBusConnectionString: stw-processing-api-queue-connectionstring
   ServiceBusQueueName: stw-processing-api-queue
+  dockerImage: '$(acrServerName)/$(proj)/stw-processing-api:$(processingTag)'
 
   # API App
   submissionApiAppName: $(proj)-submission-api-$(envLower)

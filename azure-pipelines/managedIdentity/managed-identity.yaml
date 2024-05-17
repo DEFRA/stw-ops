@@ -1,20 +1,8 @@
-parameters:
-- name: deployTag
-  displayName: "Enter Docker Tag for image to be deployed"
-  type: string
-  default: 'latest'
-
-name: $(Rev:rrr)
-
 trigger: none
 
 pr: none
 
 pool: 'DEFRA-COMMON-ubuntu2004-SSV3'
-
-variables:
-  - name: deployTag
-    value: ${{ parameters.deployTag }}
 
 resources:
   repositories:
@@ -26,8 +14,6 @@ resources:
 extends:
   template: /templates/pipelines/common-scripts-deploy.yaml@PipelineCommon
   parameters:
-    keyVaultName: $(keyVaultName)
-    keyVaultSecretsFilter: 'DEVSTWINFACR1001-ADMIN-PASSWORD'
     variableFiles:
       - /azure-pipelines/vars/{environment}.yaml@self
     regionalVariableFiles:
@@ -41,18 +27,14 @@ extends:
           - '*'
         serviceConnection: AZR-STW-DEV1
     scriptsList:
-      - displayName: DockerInstallImage
+      - displayName: RoleAssignment
         type: AzureCLI
         AzureCLIScriptType: pscore
-        scriptPath: azure-pipelines/scripts/docker-artifact-deploy.ps1
+        scriptPath: azure-pipelines/scripts/roleAssignment.ps1
         filePathsForTransform:
-          - azure-pipelines/scripts/docker-artifact-deploy.ps1.json
+          - azure-pipelines/scripts/roleAssignment.ps1
         scriptArguments: >
-          -DEPLOY_TAG $(deployTag)
-          -DOCKER_SECRET $(DEVSTWINFACR1001-ADMIN-PASSWORD)
-          -ACR_REGISTRY_SERVER $(acrServerName)
-          -ACR_REGISTRY_USERNAME $(acrUsername)
-          -APP_NAME $(functionAppName)
-          -RESOURCE_GROUP $(functionAppRG)
-          -KEYVAULT_NAME $(keyVaultName)
           -CONTAINER_REGISTRY $(acrName)
+          -RESOURCE_GROUP $(acrRG)
+          -MANAGED_IDENTITY_NAME $(managedIdentityName)
+          -ROLE $(identityRole)
