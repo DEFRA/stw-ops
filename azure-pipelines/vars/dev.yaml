@@ -40,8 +40,8 @@ variables:
   submissionDockerTag: $(submissionDockerTagACR)
   stubApiName: $(proj)-stub-api-$(envLower)
   stubApiDockerImage: $(proj)/stw-stub-api
-  stubApiDockerTag: $(dockerTagStub)
   stubApiDatabaseConnectionString: stub-api-database-connectionstring
+  stubApiDockerTag: $(stubDockerTagACR)
 
   # App Service Plan
   appServicePlanName: devstwinfsp1001

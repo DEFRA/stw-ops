@@ -1,11 +1,11 @@
-trigger:
-  - none
-
 pr: none
+trigger: none
+
+pool: 'DEFRA-COMMON-ubuntu2004-SSV3'
 
 parameters:
 - name: buildBranch
-  displayName: "Enter branch name from stw-processing-api repo"
+  displayName: "Enter branch name from stw-stub-api repo"
   type: string
   default: main
 - name: buildMajor
@@ -28,12 +28,11 @@ variables:
 - name: dockerfilePath
   value: '$(Build.SourcesDirectory)/src/STW.StubApi.Presentation/Dockerfile'
 - name: tag
-  value: '$(Build.buildid)'
+  value: '${{ parameters.buildBranch }}.$(Build.BuildNumber)'
 - name: vmImageName
   value: 'ubuntu-latest'
 - name: branchName
   value: ${{parameters.buildBranch}}
-
 
 resources:
   repositories:

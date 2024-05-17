@@ -8,13 +8,15 @@ parameters:
   - name: submissionDockerTagACR
     displayName: 'Tag of stw-submission-api to deploy'
     default: latest
-  - name: dockerTagStub
+  - name: stubDockerTagACR
     displayName: 'Tag of stw-stub to deploy'
     default: latest
 
 trigger: none
 
 pr: none
+
+pool: 'DEFRA-COMMON-ubuntu2004-SSV3'
 
 resources:
   repositories:
@@ -25,7 +27,7 @@ resources:
 
 variables:
   submissionDockerTagACR: ${{ parameters.submissionDockerTagACR }}
-  dockerTagStub: ${{ parameters.dockerTagStub }}
+  stubDockerTagACR: ${{ parameters.stubDockerTagACR }}
 
 extends:
   template: /templates/pipelines/common-infrastructure-deploy.yaml@PipelineCommon
