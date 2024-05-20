@@ -30,6 +30,7 @@ variables:
   hostingPlanName: stw-service-plan-function-1-dev
   storageAccountName: devstwinfst1001
   ServiceBusConnectionString: stw-processing-api-queue-connectionstring
+  ServiceBusQueueName: stw-processing-api-queue
 
   # API App
   submissionApiAppName: $(proj)-submission-api-$(envLower)
