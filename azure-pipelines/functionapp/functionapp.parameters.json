@@ -18,8 +18,9 @@
                 },
                 "secretName": "#{{ ServiceBusConnectionString }}"
             }
-        },
-        "env": {
+        }, "ServiceBusQueueName": {
+            "value": "#{{ ServiceBusQueueName }}"
+        },"env": {
             "value": "#{{ env }}"
         }
     }
