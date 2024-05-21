@@ -28,6 +28,10 @@ param env string
 param serviceCode string
 @description('Location value for tags')
 param locationTag string
+@description('The service bus connection string')
+param ServiceBusConnectionString string
+@description('The server bus queue name')
+param ServiceBusQueueName string
 
 // Check to see if we can find an AppInsights instance
 resource existingAppInsights 'Microsoft.Insights/components@2020-02-02' existing = if (aiExists) {
@@ -84,5 +88,7 @@ module apiApp '../../../Infra/modules/Microsoft.Web/apiapp.bicep' = [for apps in
     env: env
     serviceCode: serviceCode
     locationTag: locationTag
+    ServiceBusConnectionString: ServiceBusConnectionString
+    ServiceBusQueueName: ServiceBusQueueName
   }
 }]
