@@ -51,6 +51,13 @@
         },
         "locationTag": {
             "value": "#{{ location }}"
+        },
+        "ServiceBusConnectionString": {
+          "value": "#{{ ServiceBusConnectionString }}"
+        },
+        "ServiceBusQueueName": {
+          "value": "#{{ ServiceBusQueueName }}"
         }
+        
     }
 }
