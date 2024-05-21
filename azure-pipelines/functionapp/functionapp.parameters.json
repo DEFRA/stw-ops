@@ -10,6 +10,8 @@
             "value": "#{{ storageAccountName }}"
         },"managedIdentityName": {
             "value": "#{{ managedIdentityName }}"
+        },"ServiceBusQueueName": {
+            "value": "#{{ ServiceBusQueueName }}"
         },
         "ServiceBusConnectionString": {
             "reference": {
@@ -18,8 +20,6 @@
                 },
                 "secretName": "#{{ ServiceBusConnectionString }}"
             }
-        }, "ServiceBusQueueName": {
-            "value": "#{{ ServiceBusQueueName }}"
         },"env": {
             "value": "#{{ env }}"
         }
