@@ -23,6 +23,30 @@
         },
         "env": {
             "value": "#{{ env }}"
+        },
+        "appInsightsName": {
+            "value": "#{{ applicationInsightsName }}"
+        },
+        "locationTag": {
+            "value": "#{{ location }}"
+        },
+        "logAnalyticsNamespaceName": {
+            "value": "#{{ logAnalyticsNamespaceName }}"
+        },
+        "workspaceRetention": {
+            "value": "#{{ workspaceRetention }}"
+        },
+        "workspaceDailyQuota": {
+            "value": "#{{ workspaceDailyQuota }}"
+        },
+        "workspaceSKU": {
+            "value": "#{{ workspaceSKU }}"
+        },
+        "serviceCode": {
+            "value": "#{{ serviceCode }}"
+        },
+        "dockerImage": {
+            "value": "#{{ dockerImage }}"
         }
     }
 }

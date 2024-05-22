@@ -11,6 +11,22 @@ param ServiceBusQueueName string
 @description('Name of the managed identity to assign to the slot.')
 param managedIdentityName string
 param env string
+param aiExists bool = false
+param appInsightsName string
+@description('Location value for tags')
+param locationTag string
+@description('Log Analytics Workspace name')
+param logAnalyticsNamespaceName string
+@description('Service code for tags')
+param serviceCode string
+@description('Workspace retention')
+param workspaceRetention string
+@description('Workspace daily quota')
+param workspaceDailyQuota string
+@description('Workspace SKU')
+param workspaceSKU string
+@description('The docker image name and tag')
+param dockerImage string
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
 name: storageAccountName
@@ -57,6 +73,40 @@ resource uami 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' exis
   name: managedIdentityName
 }
 
+resource existingAppInsights 'Microsoft.Insights/components@2020-02-02' existing = if (aiExists) {
+  name: appInsightsName
+}
+var aiTags = {
+  Name: appInsightsName
+  Location: locationTag
+  Environment: env
+  ServiceCode: serviceCode
+  Tier: 'ApplicationInsights'
+}
+var laTags = {
+  Name: logAnalyticsNamespaceName
+  Location: locationTag
+  Environment: env
+  ServiceCode: serviceCode
+}
+
+module appInsights '../../../Infra/modules/Microsoft.Insights/components.bicep' = if (!aiExists) {
+  name: appInsightsName
+  params: {
+    applicationInsightsName: appInsightsName
+    location: location
+    logAnalyticsNamespaceName: logAnalyticsNamespaceName
+    workspaceSKU: workspaceSKU
+    workspaceRetention: workspaceRetention
+    workspaceDailyQuota: workspaceDailyQuota
+    aiTags: aiTags
+    laTags: laTags
+  }
+}
+
+// set the value of instrumentation key based on which of the above ran
+var InstrumentationKey = appInsights.outputs.InstrumentationKey
+
 resource function 'Microsoft.Web/sites@2021-03-01' = {
   name: functionAppName
   location: location
@@ -73,7 +123,9 @@ resource function 'Microsoft.Web/sites@2021-03-01' = {
     siteConfig: {
       alwaysOn: true
       vnetRouteAllEnabled: false // needed to force traffic through the vnet
-      linuxFxVersion: 'DOTNETCORE|8.0'
+      linuxFxVersion: 'DOCKER|${dockerImage}'
+      acrUseManagedIdentityCreds: true
+      acrUserManagedIdentityID: uami.properties.clientId
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
@@ -98,6 +150,14 @@ resource function 'Microsoft.Web/sites@2021-03-01' = {
         {
           name: 'ServiceBusQueueName'
           value: ServiceBusQueueName
+        }
+        {
+          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+          value: 'InstrumentationKey=${InstrumentationKey}'
+        }        
+        {
+          name: 'WEBSITES_ENABLE_APP_SERVICE_STORAGE'
+          value: 'false'
         }
       ]
     }
