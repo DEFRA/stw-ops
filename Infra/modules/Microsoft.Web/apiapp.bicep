@@ -22,6 +22,10 @@ param env string
 param serviceCode string
 @description('The location tag for the resource')
 param locationTag string
+@description('The service bus connection string')
+param ServiceBusConnectionString string
+@description('The server bus queue name')
+param ServiceBusQueueName string
 
 // Create the app service plan
 module appServicePlan 'asp.bicep' = {
@@ -80,7 +84,15 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
         {
           name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
           value: aiName.properties.ConnectionString
-        }  
+        }
+        {
+          name: 'ServiceBusConnectionString'
+          value: ServiceBusConnectionString
+        }
+        {
+          name: 'ServiceBusQueueName'
+          value: ServiceBusQueueName
+        }
       ]
     }
   }
