@@ -32,6 +32,8 @@ param locationTag string
 param ServiceBusConnectionString string
 @description('The service bus queue name')
 param ServiceBusQueueName string
+@description('Stub Api database connection string')
+param StubApiDatabaseConnectionString string
 
 // Check to see if we can find an AppInsights instance
 resource existingAppInsights 'Microsoft.Insights/components@2020-02-02' existing = if (aiExists) {
@@ -90,5 +92,6 @@ module apiApp '../../../Infra/modules/Microsoft.Web/apiapp.bicep' = [for apps in
     locationTag: locationTag
     ServiceBusConnectionString: ServiceBusConnectionString
     ServiceBusQueueName: ServiceBusQueueName
+    StubApiDatabaseConnectionString: StubApiDatabaseConnectionString
   }
 }]

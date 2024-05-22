@@ -41,6 +41,7 @@ variables:
   stubApiName: $(proj)-stub-api-$(envLower)
   stubApiDockerImage: $(proj)/stw-stub-api
   stubApiDockerTag: $(dockerTagStub)
+  stubApiDatabaseConnectionString: stub-api-database-connectionstring
 
   # App Service Plan
   appServicePlanName: devstwinfsp1001

@@ -57,7 +57,14 @@
         },
         "ServiceBusQueueName": {
           "value": "#{{ ServiceBusQueueName }}"
+        },
+        "StubApiDatabaseConnectionString": {
+            "reference": {
+                "keyVault": {
+                    "id": "#{{ keyVaultID }}"
+                },
+                "secretName": "#{{ stubApiDatabaseConnectionString }}"
+            }
         }
-        
     }
 }
