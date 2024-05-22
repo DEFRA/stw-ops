@@ -7,6 +7,9 @@
         },
         "env": {
             "value": "#{{ env }}"
+        },
+        "processingApiQueueName": {
+            "value": "#{{ processingApiQueueName }}"
         }
     }
 }
