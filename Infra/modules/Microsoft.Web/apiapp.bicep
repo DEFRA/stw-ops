@@ -24,7 +24,7 @@ param serviceCode string
 param locationTag string
 @description('The service bus connection string')
 param ServiceBusConnectionString string
-@description('The server bus queue name')
+@description('The service bus queue name')
 param ServiceBusQueueName string
 
 // Create the app service plan
