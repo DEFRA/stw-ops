@@ -1,6 +1,7 @@
 param serviceBusNamespaceName string
 param location string = resourceGroup().location
 param env string
+param processingApiQueueName string
 
 var servicebusTags = {
   Name: serviceBusNamespaceName
@@ -16,6 +17,6 @@ module serviceBus '../../Infra/modules/Microsoft.Servicebus/servicebus.bicep' = 
     serviceBusNamespaceName: serviceBusNamespaceName
     location: location
     tags: servicebusTags
+    processingApiQueueName: processingApiQueueName
   }
 }
-
