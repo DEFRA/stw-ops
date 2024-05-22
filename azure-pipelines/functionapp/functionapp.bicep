@@ -7,6 +7,7 @@ param functionAppName string
 param hostingPlanName string
 param storageAccountName string
 param ServiceBusConnectionString string
+param ServiceBusQueueName string
 @description('Name of the managed identity to assign to the slot.')
 param managedIdentityName string
 param env string
@@ -93,6 +94,10 @@ resource function 'Microsoft.Web/sites@2021-03-01' = {
         {
           name: 'ServiceBusConnectionString'
           value: ServiceBusConnectionString
+        }
+        {
+          name: 'ServiceBusQueueName'
+          value: ServiceBusQueueName
         }
       ]
     }
