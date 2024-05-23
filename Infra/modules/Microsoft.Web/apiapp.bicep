@@ -26,6 +26,8 @@ param locationTag string
 param ServiceBusConnectionString string
 @description('The service bus queue name')
 param ServiceBusQueueName string
+@description('Stub Api database connection string')
+param StubApiDatabaseConnectionString string
 
 // Create the app service plan
 module appServicePlan 'asp.bicep' = {
@@ -92,6 +94,10 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
         {
           name: 'ServiceBusQueueName'
           value: ServiceBusQueueName
+        }
+        {
+          name: 'ConnectionStrings__StubApiDatabase'
+          value: StubApiDatabaseConnectionString
         }
       ]
     }

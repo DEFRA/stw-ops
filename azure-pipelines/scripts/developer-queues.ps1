@@ -59,7 +59,7 @@ function devQueues ($devList) {
             --max-size $QUEUE_SIZE `
             --enable-duplicate-detection $DUPLICATION_DETECTION `
             --default-message-time-to-live $QUEUE_TTL `
-            --enable-session true
+            --enable-session false
         }
     }
 }
@@ -79,7 +79,7 @@ function createQueue ($CustomQueueName) {
             --max-size $QUEUE_SIZE `
             --enable-duplicate-detection $DUPLICATION_DETECTION `
             --default-message-time-to-live $QUEUE_TTL `
-            --enable-session true
+            --enable-session false
             write-host "$Q has been created"
         }
     }
