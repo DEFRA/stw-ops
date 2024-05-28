@@ -28,7 +28,7 @@ variables:
 - name: dockerfilePath
   value: '$(Build.SourcesDirectory)/src/STW.SubmissionApi.Presentation/Dockerfile'
 - name: tag
-  value: $(Build.BuildNumber) # set by 'name:' above
+  value: ${{ parameters.buildBranch }}.$(Build.BuildNumber) # set by 'name:' above
 - name: vmImageName
   value: 'ubuntu-latest'
 - name: branchName

@@ -1,0 +1,203 @@
+pr: none
+trigger: none
+
+pool: 'DEFRA-COMMON-ubuntu2004-SSV3'
+
+parameters:
+- name: stubBranch
+  displayName: "Enter branch name from stw-stub-api repo"
+  type: string
+  default: main
+- name: submissionBranch
+  displayName: "Enter branch name from stw-submission-api repo"
+  type: string
+  default: main
+- name: processingBranch
+  displayName: "Enter branch name from stw-processing-api repo"
+  type: string
+  default: main
+- name: buildStub
+  type: boolean
+  displayName: "Build the StubApi image from branch?"
+  default: false
+- name: buildSubmission
+  type: boolean
+  displayName: "Build the SubmissionApi image from branch?"
+  default: false
+- name: buildProcessing
+  type: boolean
+  displayName: "Build the Processing function app image from branch?"
+  default: false
+- name: stubTag
+  type: string
+  displayName: "Tag to deploy for StubApi"
+  default: latest
+- name: submissionTag
+  type: string
+  displayName: "Tag to deploy for SubmissionApi"
+  default: latest
+- name: processingTag
+  type: string
+  displayName: "Tag to deploy for Processing function app"
+  default: latest
+- name: deployAPI
+  type: boolean
+  displayName: "Deploy the API apps?"
+  default: true
+- name: deployFunctionApp
+  type: boolean
+  displayName: "Deploy the Function app?"
+  default: true
+
+variables:
+  stubBranchOriginal: ${{ parameters.stubBranch }}
+  stubBranch: ${{ replace(variables['stubBranchOriginal'], '/', '-_') }}
+  submissionBranchOriginal: ${{ parameters.submissionBranch }}
+  submissionBranch: ${{ replace(variables['submissionBranchOriginal'], '/', '-') }}
+  processingBranchOriginal: ${{ parameters.processingBranch }}
+  processingBranch: ${{ replace(variables['processingBranchOriginal'], '/', '-') }}
+  buildStubApiId: '6873'
+  buildSubmissionApiId: '6819'
+  buildProcessingId: '6814'
+  deployApiAppsID: '6789'
+  deployFunctionAppId: '6813'
+  buildStub: ${{ parameters.buildStub }}
+  buildSubmission: ${{ parameters.buildSubmission }}
+  buildProcessing: ${{ parameters.buildProcessing }}
+  stubApiTag: ${{ parameters.stubTag }}
+  submissionApiTag: ${{ parameters.submissionTag }}
+  processingTag: ${{ parameters.processingTag }}
+  deployAPI: ${{ parameters.deployAPI }}
+  deployFunctionApp: ${{ parameters.deployFunctionApp }}
+
+stages:
+  - stage: Build_the_images
+    jobs:
+    - job: Empty_Job_incase_we_dont_build_anything_in_this_stage
+      steps:
+      - script: echo "Hello World!"
+    - ${{ if eq(variables.buildStub, True) }}:
+      - job: Trigger_Pipeline_StubApi_Build
+        steps:
+        - script: |
+            RUN_PIPELINE=`az pipelines run --id $(buildStubApiId) --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration --branch $(Build.SourceBranch) --parameters buildBranch=$(stubBranch)`
+            PIPELINE_ID=$(jq -r '.id' <<<"$RUN_PIPELINE")
+            echo $PIPELINE_ID
+            echo "Started the pipeline, listing the ones in progress:"
+            sleep 5
+            MY_RUN=`az pipelines build show --id $PIPELINE_ID --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration`
+            echo "and the pipeline is:"
+            echo $MY_RUN
+            STATE=$(jq -r '.status' <<<"$MY_RUN")
+            while [ $STATE != "completed" ]
+            do
+              sleep 10
+              MY_RUN=`az pipelines build show --id $PIPELINE_ID --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration`
+              STATE=$(jq -r '.status' <<<"$MY_RUN")
+              echo $STATE
+            done
+            echo "Done!"
+          env:
+            AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
+          failOnStderr: True
+    - ${{ if eq(variables.buildSubmission, True) }}:
+      - job: Trigger_Pipeline_SubmissionApi_Build
+        steps:
+        - script: |
+            RUN_PIPELINE=`az pipelines run --id $(buildSubmissionApiId) --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration --branch $(Build.SourceBranch) --parameters buildBranch=$(submissionBranch)`
+            PIPELINE_ID=$(jq -r '.id' <<<"$RUN_PIPELINE")
+            echo $PIPELINE_ID
+            echo "Started the pipeline, listing the ones in progress:"
+            sleep 5
+            MY_RUN=`az pipelines build show --id $PIPELINE_ID --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration`
+            echo "and the pipeline is:"
+            echo $MY_RUN
+            STATE=$(jq -r '.status' <<<"$MY_RUN")
+            while [ $STATE != "completed" ]
+            do
+              sleep 10
+              MY_RUN=`az pipelines build show --id $PIPELINE_ID --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration`
+              STATE=$(jq -r '.status' <<<"$MY_RUN")
+              echo $STATE
+            done
+            echo "Done!"
+          env:
+            AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
+          failOnStderr: True
+    - ${{ if eq(variables.buildProcessing, True) }}:
+      - job: Trigger_Pipeline_ProcessingApi_Build
+        steps:
+        - script: |
+            RUN_PIPELINE=`az pipelines run --id $(buildProcessingId) --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration --branch $(Build.SourceBranch) --parameters buildBranch=$(processingBranch)`
+            PIPELINE_ID=$(jq -r '.id' <<<"$RUN_PIPELINE")
+            echo $PIPELINE_ID
+            echo "Started the pipeline, listing the ones in progress:"
+            sleep 5
+            MY_RUN=`az pipelines build show --id $PIPELINE_ID --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration`
+            echo "and the pipeline is:"
+            echo $MY_RUN
+            STATE=$(jq -r '.status' <<<"$MY_RUN")
+            while [ $STATE != "completed" ]
+            do
+              sleep 10
+              MY_RUN=`az pipelines build show --id $PIPELINE_ID --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration`
+              STATE=$(jq -r '.status' <<<"$MY_RUN")
+              echo $STATE
+            done
+            echo "Done!"
+          env:
+            AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
+          failOnStderr: True
+  - stage: Deploy_the_images
+    jobs:
+    - job: Empty_Job_incase_we_dont_deploy_anything_in_this_stage
+      steps:
+      - script: echo "Hello World!"
+    - ${{ if eq(variables.deployAPI, True) }}:
+      - job: Deploy_API_Apps
+        steps:
+        - script: |
+            RUN_PIPELINE=`az pipelines run --id $(deployApiAppsID) --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration --branch $(Build.SourceBranch) --parameters submissionDockerTagACR=$(submissionApiTag) stubDockerTagACR=$(stubApiTag)`
+            PIPELINE_ID=$(jq -r '.id' <<<"$RUN_PIPELINE")
+            echo $PIPELINE_ID
+            echo "Started the pipeline, listing the ones in progress:"
+            sleep 5
+            MY_RUN=`az pipelines build show --id $PIPELINE_ID --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration`
+            echo "and the pipeline is:"
+            echo $MY_RUN
+            STATE=$(jq -r '.status' <<<"$MY_RUN")
+            while [ $STATE != "completed" ]
+            do
+              sleep 10
+              MY_RUN=`az pipelines build show --id $PIPELINE_ID --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration`
+              STATE=$(jq -r '.status' <<<"$MY_RUN")
+              echo $STATE
+            done
+            echo "Done!"
+          env:
+            AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
+          failOnStderr: True
+    - ${{ if eq(variables.deployFunctionApp, True) }}:
+      - job: Deploy_Function_App
+        steps:
+        - script: |
+            RUN_PIPELINE=`az pipelines run --id $(deployFunctionAppId) --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration --branch $(Build.SourceBranch) --parameters processingApiTag=$(processingTag)`
+            PIPELINE_ID=$(jq -r '.id' <<<"$RUN_PIPELINE")
+            echo $PIPELINE_ID
+            echo "Started the pipeline, listing the ones in progress:"
+            sleep 5
+            MY_RUN=`az pipelines build show --id $PIPELINE_ID --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration`
+            echo "and the pipeline is:"
+            echo $MY_RUN
+            STATE=$(jq -r '.status' <<<"$MY_RUN")
+            while [ $STATE != "completed" ]
+            do
+              sleep 10
+              MY_RUN=`az pipelines build show --id $PIPELINE_ID --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration`
+              STATE=$(jq -r '.status' <<<"$MY_RUN")
+              echo $STATE
+            done
+            echo "Done!"
+          env:
+            AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
+          failOnStderr: True

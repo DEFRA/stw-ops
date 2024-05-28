@@ -28,7 +28,7 @@ variables:
 - name: dockerfilePath
   value: '$(Build.SourcesDirectory)/src/STW.ProcessingApi.Function/Dockerfile'
 - name: tag
-  value: '$(Build.buildid)'
+  value: '${{ parameters.buildBranch }}.$(Build.BuildNumber)'
 - name: vmImageName
   value: 'ubuntu-latest'
 - name: branchName
