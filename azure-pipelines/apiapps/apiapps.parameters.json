@@ -53,23 +53,19 @@
             "value": "#{{ location }}"
         },
         "ServiceBusConnectionString": {
-            "reference": {
-                "keyVault": {
-                    "id": "#{{ keyVaultID }}"
-                },
-                "secretName": "#{{ ServiceBusConnectionString }}"
-            }
+            "value": "#{{ ServiceBusConnectionString }}"
         },
         "ServiceBusQueueName": {
-          "value": "#{{ ServiceBusQueueName }}"
+            "value": "#{{ ServiceBusQueueName }}"
         },
         "StubApiDatabaseConnectionString": {
-            "reference": {
-                "keyVault": {
-                    "id": "#{{ keyVaultID }}"
-                },
-                "secretName": "#{{ stubApiDatabaseConnectionString }}"
-            }
+            "value": "#{{ stubApiDatabaseConnectionString }}"
+        },
+        "keyVaultName": {
+            "value": "#{{ keyVaultName }}"
+        },
+        "keyVaultRgName": {
+            "value": "#{{ keyVaultRgName }}"
         }
     }
 }

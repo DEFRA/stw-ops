@@ -33,6 +33,9 @@ extends:
   template: /templates/pipelines/common-infrastructure-deploy.yaml@PipelineCommon
   parameters:
     projectName: STW
+    privateAgentName: 'DEFRA-COMMON-ubuntu2004-SSV3'
+    keyVaultName: $(keyVaultName)
+    keyVaultSecretsFilter: tenantId, subscriptionId
     deployFromFeature: True
     environments:
       - name: 'dev'

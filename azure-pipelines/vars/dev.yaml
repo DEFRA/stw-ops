@@ -1,8 +1,10 @@
 variables:
   serviceConnection: AZR-STW-DEV1
   keyVaultName: DEVSTWINFVT1001
+  keyVaultNameLower: devstwinfvt1001
   resourceGroup: DEVSTWINFRG1001
-  keyVaultID: "/subscriptions/a4706f6f-a947-4849-b4d6-4b0c223f202c/resourceGroups/DEVSTWVTRG1001/providers/Microsoft.KeyVault/vaults/DEVSTWINFVT1001"
+  keyVaultRgName: DEVSTWVTRG1001
+  keyVaultID: "/subscriptions/a4706f6f-a947-4849-b4d6-4b0c223f202c/resourceGroups/$(keyVaultRgName)/providers/Microsoft.KeyVault/vaults/$(keyVaultName)"
   managedIdentityName: DEVSTWINFMI1001
   Location: 'northeurope'
   env: DEV
@@ -30,7 +32,7 @@ variables:
   functionAppName: $(proj)-processing-function-$(envLower)
   hostingPlanName: stw-service-plan-function-1-dev
   storageAccountName: devstwinfst1001
-  ServiceBusConnectionString: stw-processing-api-queue-connectionstring
+  ServiceBusConnectionString: "@Microsoft.KeyVault(SecretUri=https://$(keyVaultNameLower).vault.azure.net/secrets/stw-processing-api-queue-connectionstring/)"
   ServiceBusQueueName: stw-processing-api-queue
   dockerImage: '$(acrServerName)/$(proj)/stw-processing-api:$(processingTag)'
 
@@ -40,7 +42,7 @@ variables:
   submissionDockerTag: $(submissionDockerTagACR)
   stubApiName: $(proj)-stub-api-$(envLower)
   stubApiDockerImage: $(proj)/stw-stub-api
-  stubApiDatabaseConnectionString: stub-api-database-connectionstring
+  stubApiDatabaseConnectionString: "@Microsoft.KeyVault(SecretUri=https://$(keyVaultNameLower).vault.azure.net/secrets/stub-api-database-connectionstring/)"
   stubApiDockerTag: $(stubDockerTagACR)
 
   # App Service Plan

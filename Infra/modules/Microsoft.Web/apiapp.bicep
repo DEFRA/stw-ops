@@ -28,6 +28,13 @@ param ServiceBusConnectionString string
 param ServiceBusQueueName string
 @description('Stub Api database connection string')
 param StubApiDatabaseConnectionString string
+@description('Name of the KeyVault')
+param keyVaultName string
+@description('Resource group of the KeyVault')
+param keyVaultRgName string
+
+@description('The tenant ID for the subscription')
+var tenantId = subscription().tenantId
 
 // Create the app service plan
 module appServicePlan 'asp.bicep' = {
@@ -69,6 +76,7 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
   kind: 'app,linux,container'
   properties: {
     httpsOnly: true
+    keyVaultReferenceIdentity: uami.id
     serverFarmId: aspId
     siteConfig: {
       linuxFxVersion: 'DOCKER|${dockerImage}'
@@ -107,5 +115,16 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
     userAssignedIdentities: {
       '${uami.id}': {}
     }
+  }
+}
+
+// create the access policy
+module accessPolicy '../Microsoft.KeyVault/accesspolicy.bicep' = {
+  name: 'myAccessPolicy'
+  scope: resourceGroup(keyVaultRgName)
+  params: { 
+    keyVaultName: keyVaultName
+    tenantId: tenantId
+    managedIdId: uami.properties.principalId
   }
 }
