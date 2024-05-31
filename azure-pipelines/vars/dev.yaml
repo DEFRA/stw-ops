@@ -48,3 +48,10 @@ variables:
   # App Service Plan
   appServicePlanName: devstwinfsp1001
   sku: P1v3
+
+  # Vnet
+  vnetRg: DEVSTWNETRG1001
+  vnetName: DEVSTWNETVN1001
+  appSubNetName: DEVSTWNETSU1003
+  infSubnetName: DEVSTWNETSU1001
+  vnetNsgName: DEVSTWNETNS1001

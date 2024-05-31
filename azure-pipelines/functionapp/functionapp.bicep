@@ -27,6 +27,12 @@ param workspaceDailyQuota string
 param workspaceSKU string
 @description('The docker image name and tag')
 param dockerImage string
+@description('Vnet name')
+param vnetName string
+@description('Subnet name')
+param subnetName string
+@description('Vnet resource group')
+param vnetRg string
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
 name: storageAccountName
@@ -107,6 +113,11 @@ module appInsights '../../../Infra/modules/Microsoft.Insights/components.bicep' 
 // set the value of instrumentation key based on which of the above ran
 var InstrumentationKey = appInsights.outputs.InstrumentationKey
 
+// Get the subnet reference
+resource mySubnet 'Microsoft.Network/virtualNetworks/subnets@2022-05-01' existing = {
+  name: '${vnetName}/${subnetName}'
+  scope: resourceGroup('${vnetRg}') // look in a specified resorce group, otherwise it fails
+}
 resource function 'Microsoft.Web/sites@2021-03-01' = {
   name: functionAppName
   location: location
@@ -172,3 +183,12 @@ resource function 'Microsoft.Web/sites@2021-03-01' = {
 }
 
 output functionAppUrl string = function.properties.defaultHostName
+
+resource networkConfig 'Microsoft.Web/sites/networkConfig@2022-03-01' = {
+  parent: function
+  name: 'virtualNetwork'
+  properties: {
+    subnetResourceId: mySubnet.id
+    swiftSupported: true
+  }
+}
