@@ -1,0 +1,94 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "#{{ stubApiName }}"
+        },
+        "dockerImage": {
+            "value": "#{{ stubApiDockerImage }}"
+        },
+        "dockerTag": {
+            "value": "#{{ stubApiDockerTag }}"
+        },
+        "appInsightsName": {
+            "value": "#{{ applicationInsightsName }}"
+        },
+        "logAnalyticsNamespaceName": {
+            "value": "#{{ logAnalyticsNamespaceName }}"
+        },
+        "workspaceSKU": {
+            "value": "#{{ workspaceSKU }}"
+        },
+        "workspaceRetention": {
+            "value": "#{{ workspaceRetention }}"
+        },
+        "workspaceDailyQuota": {
+            "value": "#{{ workspaceDailyQuota }}"
+        },
+        "containerRegistryName": {
+            "value": "#{{ acrServerName }}"
+        },
+        "identityName": {
+            "value": "#{{ managedIdentityName }}"
+        },
+        "appServicePlanName": {
+            "value": "#{{ appServicePlanName }}"
+        },
+        "sku": {
+            "value": "#{{ sku }}"
+        },
+        "env": {
+            "value": "#{{ env }}"
+        },
+        "serviceCode": {
+            "value": "#{{ serviceCode }}"
+        },
+        "locationTag": {
+            "value": "#{{ location }}"
+        },
+        "ServiceBusConnectionString": {
+            "reference": {
+                "keyVault": {
+                    "id": "#{{ keyVaultID }}"
+                },
+                "secretName": "#{{ ServiceBusConnectionString }}"
+            }
+        },
+        "ServiceBusQueueName": {
+          "value": "#{{ ServiceBusQueueName }}"
+        },
+        "StubApiDatabaseConnectionString": {
+            "reference": {
+                "keyVault": {
+                    "id": "#{{ keyVaultID }}"
+                },
+                "secretName": "#{{ stubApiDatabaseConnectionString }}"
+            }
+        },
+        "apiAppSettings": {
+            "value": [
+                {
+                    name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+                    value: aiName.properties.InstrumentationKey
+                }
+                {
+                    name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+                    value: aiName.properties.ConnectionString
+                }
+                {
+                    name: 'ServiceBusConnectionString'
+                    value: ServiceBusConnectionString
+                }
+                {
+                    name: 'ServiceBusQueueName'
+                    value: ServiceBusQueueName
+                }
+                {
+                    name: 'ConnectionStrings__StubApiDatabase'
+                    value: StubApiDatabaseConnectionString
+                }
+            ]
+        }
+    }
+}

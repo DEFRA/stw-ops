@@ -57,11 +57,19 @@ extends:
     regionalVariableFiles:
       - azure-pipelines/vars/regional/{environment}-{region}.yaml@self
     groupedTemplates:
-      - name: deployApiApps
+      - name: submissionAPI
         templates:
           - path: azure-pipelines/apiapps/
-            name: apiapps
+            name: submissionApi
             type: bicep
             isDeployToSecondaryRegions: false
             scope: 'Resource Group'
             resourceGroupName: $(resourceGroup)
+      # - name: stubAPI
+      #   templates:
+      #     - path: azure-pipelines/apiapps/
+      #       name: stubApi
+      #       type: bicep
+      #       isDeployToSecondaryRegions: false
+      #       scope: 'Resource Group'
+      #       resourceGroupName: $(resourceGroup)

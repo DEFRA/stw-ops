@@ -22,19 +22,14 @@ param env string
 param serviceCode string
 @description('The location tag for the resource')
 param locationTag string
-@description('The service bus connection string')
-param ServiceBusConnectionString string
-@description('The service bus queue name')
-param ServiceBusQueueName string
-@description('Stub Api database connection string')
-param StubApiDatabaseConnectionString string
 @description('Name of the KeyVault')
 param keyVaultName string
 @description('Resource group of the KeyVault')
 param keyVaultRgName string
 @description('Subnet id')
 param subnetId string
-
+@description('appSettings id')
+param appSettings object[]
 @description('The tenant ID for the subscription')
 var tenantId = subscription().tenantId
 
@@ -88,28 +83,7 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
       healthCheckPath: '/admin/health'
       ftpsState: 'Disabled'
       alwaysOn: true
-      appSettings: [
-        {
-          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-          value: aiName.properties.InstrumentationKey
-        }
-        {
-          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-          value: aiName.properties.ConnectionString
-        }
-        {
-          name: 'ServiceBusConnectionString'
-          value: ServiceBusConnectionString
-        }
-        {
-          name: 'ServiceBusQueueName'
-          value: ServiceBusQueueName
-        }
-        {
-          name: 'ConnectionStrings__StubApiDatabase'
-          value: StubApiDatabaseConnectionString
-        }
-      ]
+      appSettings: appSettings
     }
   }
   identity: {
