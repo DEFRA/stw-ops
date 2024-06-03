@@ -120,6 +120,7 @@ resource function 'Microsoft.Web/sites@2021-03-01' = {
   }
   properties: {
     serverFarmId: appServicePlan.id
+    keyVaultReferenceIdentity: uami.id
     siteConfig: {
       alwaysOn: true
       vnetRouteAllEnabled: false // needed to force traffic through the vnet
@@ -154,7 +155,11 @@ resource function 'Microsoft.Web/sites@2021-03-01' = {
         {
           name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
           value: 'InstrumentationKey=${InstrumentationKey}'
-        }        
+        }
+        {
+          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+          value: InstrumentationKey
+        }
         {
           name: 'WEBSITES_ENABLE_APP_SERVICE_STORAGE'
           value: 'false'

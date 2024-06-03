@@ -4,22 +4,21 @@
     "parameters": {
         "functionAppName": {
             "value": "#{{ functionAppName }}"
-        },"hostingPlanName": {
+        },
+        "hostingPlanName": {
             "value": "#{{ hostingPlanName }}"
-        },"storageAccountName": {
+        },
+        "storageAccountName": {
             "value": "#{{ storageAccountName }}"
-        },"managedIdentityName": {
+        },
+        "managedIdentityName": {
             "value": "#{{ managedIdentityName }}"
-        },"ServiceBusQueueName": {
+        },
+        "ServiceBusQueueName": {
             "value": "#{{ ServiceBusQueueName }}"
         },
         "ServiceBusConnectionString": {
-            "reference": {
-                "keyVault": {
-                    "id": "#{{ keyVaultID }}"
-                },
-                "secretName": "#{{ ServiceBusConnectionString }}"
-            }
+            "value": "#{{ ServiceBusConnectionString }}"
         },
         "env": {
             "value": "#{{ env }}"
