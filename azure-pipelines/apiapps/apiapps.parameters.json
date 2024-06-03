@@ -66,6 +66,15 @@
         },
         "keyVaultRgName": {
             "value": "#{{ keyVaultRgName }}"
+        },
+        "vnetName": {
+            "value": "#{{ vnetName }}"
+        },
+        "subnetName": {
+            "value": "#{{ appSubNetName }}"
+        },
+        "vnetRg": {
+            "value": "#{{ vnetRg }}"
         }
     }
 }

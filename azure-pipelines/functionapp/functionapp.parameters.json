@@ -46,6 +46,15 @@
         },
         "dockerImage": {
             "value": "#{{ dockerImage }}"
+        },
+        "vnetName": {
+            "value": "#{{ vnetName }}"
+        },
+        "subnetName": {
+            "value": "#{{ appSubNetName }}"
+        },
+        "vnetRg": {
+            "value": "#{{ vnetRg }}"
         }
     }
 }

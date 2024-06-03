@@ -38,6 +38,12 @@ param StubApiDatabaseConnectionString string
 param keyVaultName string
 @description('Resource group of the KeyVault')
 param keyVaultRgName string
+@description('Vnet name')
+param vnetName string
+@description('Subnet name')
+param subnetName string
+@description('Vnet resource group')
+param vnetRg string
 
 // Check to see if we can find an AppInsights instance
 resource existingAppInsights 'Microsoft.Insights/components@2020-02-02' existing = if (aiExists) {
@@ -71,6 +77,12 @@ module appInsights '../../../Infra/modules/Microsoft.Insights/components.bicep' 
   }
 }
 
+// Get the subnet reference
+resource mySubnet 'Microsoft.Network/virtualNetworks/subnets@2022-05-01' existing = {
+  name: '${vnetName}/${subnetName}'
+  scope: resourceGroup('${vnetRg}') // look in a specified resorce group, otherwise it fails
+}
+
 var aspTags = {
   Name: appServicePlanName
   Location: locationTag
@@ -99,5 +111,6 @@ module apiApp '../../../Infra/modules/Microsoft.Web/apiapp.bicep' = [for apps in
     StubApiDatabaseConnectionString: StubApiDatabaseConnectionString
     keyVaultName: keyVaultName
     keyVaultRgName: keyVaultRgName
+    subnetId: mySubnet.id
   }
 }]

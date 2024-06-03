@@ -32,6 +32,8 @@ param StubApiDatabaseConnectionString string
 param keyVaultName string
 @description('Resource group of the KeyVault')
 param keyVaultRgName string
+@description('Subnet id')
+param subnetId string
 
 @description('The tenant ID for the subscription')
 var tenantId = subscription().tenantId
@@ -117,6 +119,16 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
     }
   }
 }
+
+resource networkConfig 'Microsoft.Web/sites/networkConfig@2022-03-01' = {
+  parent: webApp
+  name: 'virtualNetwork'
+  properties: {
+    subnetResourceId: subnetId
+    swiftSupported: true
+  }
+}
+
 
 // create the access policy
 module accessPolicy '../Microsoft.KeyVault/accesspolicy.bicep' = {
