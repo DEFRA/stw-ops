@@ -51,11 +51,6 @@ resource uami 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' exis
 }
 output uamiId string = uami.id
 
-// Get a reference to the Application Insights instance
-resource aiName 'Microsoft.Insights/components@2020-02-02' existing = {
-  name: appInsightsName
-}
-
 var dockerImage = '${containerRegistryName}/${dockerImageTag}'
 
 var apiTags = {

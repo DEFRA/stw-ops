@@ -37,7 +37,7 @@ variables:
   dockerImage: '$(acrServerName)/$(proj)/stw-processing-api:$(processingTag)'
 
   # API App
-  submissionApiAppName: $(proj)-submission-api-$(envLower)-ciaran
+  submissionApiAppName: $(proj)-submission-api-$(envLower)
   submissionApiAppDockerImage: $(proj)/stw-submission-api
   submissionDockerTag: $(submissionDockerTagACR)
   stubApiName: $(proj)-stub-api-$(envLower)
