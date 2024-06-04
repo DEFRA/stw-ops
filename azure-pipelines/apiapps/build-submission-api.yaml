@@ -20,7 +20,8 @@ parameters:
 name: ${{ parameters.buildMajor }}.${{ parameters.buildMinor }}.$(Rev:rrr)
 
 variables:
-
+- name: branchNameForTag
+  value: ${{ replace(parameters['buildBranch'], '/', '-') }}
 - name: imageRepository
   value: 'stw/stw-submission-api'
 - name: containerRegistry
@@ -28,7 +29,7 @@ variables:
 - name: dockerfilePath
   value: '$(Build.SourcesDirectory)/src/STW.SubmissionApi.Presentation/Dockerfile'
 - name: tag
-  value: ${{ parameters.buildBranch }}.$(Build.BuildNumber) # set by 'name:' above
+  value: ${{ variables.branchNameForTag }}.$(Build.BuildNumber) # set by 'name:' above
 - name: vmImageName
   value: 'ubuntu-latest'
 - name: branchName
