@@ -28,8 +28,8 @@ param keyVaultName string
 param keyVaultRgName string
 @description('Subnet id')
 param subnetId string
-@description('appSettings id')
-param appSettings object[]
+// @description('appSettings id')
+// param appSettings object[]
 @description('The tenant ID for the subscription')
 var tenantId = subscription().tenantId
 
