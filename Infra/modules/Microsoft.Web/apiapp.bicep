@@ -83,7 +83,20 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
       healthCheckPath: '/admin/health'
       ftpsState: 'Disabled'
       alwaysOn: true
-      appSettings: appSettings
+      appSettings: [
+        {
+          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+          value: aiName.properties.InstrumentationKey
+        }
+        {
+          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+          value: aiName.properties.ConnectionString
+        }
+        {
+          name: 'ServiceBusConnectionString'
+          value: '123'
+        }
+      ]
     }
   }
   identity: {

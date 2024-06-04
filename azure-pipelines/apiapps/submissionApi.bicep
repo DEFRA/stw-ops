@@ -97,28 +97,28 @@ var aspTags = {
   ServiceCode: serviceCode
 }
 
-var appSettings = [
-  {
-    name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-    value: existingAppInsights.properties.InstrumentationKey
-  }
-  {
-    name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-    value: existingAppInsights.properties.ConnectionString
-  }
-  {
-    name: 'ServiceBusConnectionString'
-    value: ServiceBusConnectionString
-  }
-  {
-    name: 'ServiceBusQueueName'
-    value: ServiceBusQueueName
-  }
-  {
-    name: 'ConnectionStrings__StubApiDatabase'
-    value: StubApiDatabaseConnectionString
-  }
-]
+// var appSettings = [
+//   {
+//     name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+//     value: existingAppInsights.properties.InstrumentationKey
+//   }
+//   {
+//     name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+//     value: existingAppInsights.properties.ConnectionString
+//   }
+//   {
+//     name: 'ServiceBusConnectionString'
+//     value: ServiceBusConnectionString
+//   }
+//   {
+//     name: 'ServiceBusQueueName'
+//     value: ServiceBusQueueName
+//   }
+//   {
+//     name: 'ConnectionStrings__StubApiDatabase'
+//     value: StubApiDatabaseConnectionString
+//   }
+// ]
 
 // Deploy the Apps
 module apiApp '../../../Infra/modules/Microsoft.Web/apiapp.bicep' = {
