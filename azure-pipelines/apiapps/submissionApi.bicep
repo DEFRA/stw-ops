@@ -136,7 +136,7 @@ module apiApp '../../../Infra/modules/Microsoft.Web/apiapp.bicep' = {
     env: env
     serviceCode: serviceCode
     locationTag: locationTag
-    appSettings: appSettings
+    // appSettings: appSettings
     keyVaultName: keyVaultName
     keyVaultRgName: keyVaultRgName
     subnetId: mySubnet.id
