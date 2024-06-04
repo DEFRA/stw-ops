@@ -30,13 +30,13 @@ param env string
 param serviceCode string
 @description('Location value for tags')
 param locationTag string
-@description('The service bus connection string')
-param ServiceBusConnectionString string
-@description('The service bus queue name')
-param ServiceBusQueueName string
-@description('Stub Api database connection string')
-param StubApiDatabaseConnectionString string
-@description('appName')
+// @description('The service bus connection string')
+// // param ServiceBusConnectionString string
+// // @description('The service bus queue name')
+// // param ServiceBusQueueName string
+// // @description('Stub Api database connection string')
+// // param StubApiDatabaseConnectionString string
+// @description('appName')
 param name string
 @description('The Keyvault name')
 param keyVaultName string
