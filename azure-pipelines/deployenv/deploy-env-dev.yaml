@@ -80,7 +80,7 @@ stages:
       - job: Trigger_Pipeline_StubApi_Build
         steps:
         - script: |
-            RUN_PIPELINE=`az pipelines run --id $(buildStubApiId) --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration --branch $(Build.SourceBranch) --parameters buildBranch=$(stubBranch)`
+            RUN_PIPELINE=`az pipelines run --id $(buildStubApiId) --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration --branch $(Build.SourceBranch) --parameters buildBranch=$(stubBranchOriginal)`
             PIPELINE_ID=$(jq -r '.id' <<<"$RUN_PIPELINE")
             echo $PIPELINE_ID
             echo "Started the pipeline, listing the ones in progress:"
@@ -94,7 +94,13 @@ stages:
               sleep 10
               MY_RUN=`az pipelines build show --id $PIPELINE_ID --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration`
               STATE=$(jq -r '.status' <<<"$MY_RUN")
+              RESULT=$(jq -r '.result' <<<"$MY_RUN")
               echo $STATE
+              echo $RESULT
+              if [ $RESULT == 'failed' ] || [ $RESULT == 'error' ]
+              then
+                exit 1
+              fi
             done
             echo "Done!"
           env:
@@ -104,7 +110,7 @@ stages:
       - job: Trigger_Pipeline_SubmissionApi_Build
         steps:
         - script: |
-            RUN_PIPELINE=`az pipelines run --id $(buildSubmissionApiId) --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration --branch $(Build.SourceBranch) --parameters buildBranch=$(submissionBranch)`
+            RUN_PIPELINE=`az pipelines run --id $(buildSubmissionApiId) --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration --branch $(Build.SourceBranch) --parameters buildBranch=$(submissionBranchOriginal)`
             PIPELINE_ID=$(jq -r '.id' <<<"$RUN_PIPELINE")
             echo $PIPELINE_ID
             echo "Started the pipeline, listing the ones in progress:"
@@ -118,7 +124,13 @@ stages:
               sleep 10
               MY_RUN=`az pipelines build show --id $PIPELINE_ID --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration`
               STATE=$(jq -r '.status' <<<"$MY_RUN")
+              RESULT=$(jq -r '.result' <<<"$MY_RUN")
               echo $STATE
+              echo $RESULT
+              if [ $RESULT == 'failed' ] || [ $RESULT == 'error' ]
+              then
+                exit 1
+              fi
             done
             echo "Done!"
           env:
@@ -128,7 +140,9 @@ stages:
       - job: Trigger_Pipeline_ProcessingApi_Build
         steps:
         - script: |
-            RUN_PIPELINE=`az pipelines run --id $(buildProcessingId) --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration --branch $(Build.SourceBranch) --parameters buildBranch=$(processingBranch)`
+            echo $(processingBranchOriginal)
+            echo "just printed the branch???"
+            RUN_PIPELINE=`az pipelines run --id $(buildProcessingId) --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration --branch $(Build.SourceBranch) --parameters buildBranch=$(processingBranchOriginal)`
             PIPELINE_ID=$(jq -r '.id' <<<"$RUN_PIPELINE")
             echo $PIPELINE_ID
             echo "Started the pipeline, listing the ones in progress:"
@@ -142,7 +156,13 @@ stages:
               sleep 10
               MY_RUN=`az pipelines build show --id $PIPELINE_ID --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration`
               STATE=$(jq -r '.status' <<<"$MY_RUN")
+              RESULT=$(jq -r '.result' <<<"$MY_RUN")
               echo $STATE
+              echo $RESULT
+              if [ $RESULT == 'failed' ] || [ $RESULT == 'error' ]
+              then
+                exit 1
+              fi
             done
             echo "Done!"
           env:
@@ -171,7 +191,13 @@ stages:
               sleep 10
               MY_RUN=`az pipelines build show --id $PIPELINE_ID --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration`
               STATE=$(jq -r '.status' <<<"$MY_RUN")
+              RESULT=$(jq -r '.result' <<<"$MY_RUN")
               echo $STATE
+              echo $RESULT
+              if [ $RESULT == 'failed' ] || [ $RESULT == 'error' ]
+              then
+                exit 1
+              fi
             done
             echo "Done!"
           env:
@@ -195,7 +221,13 @@ stages:
               sleep 10
               MY_RUN=`az pipelines build show --id $PIPELINE_ID --org https://dev.azure.com/defragovuk/ --project DEFRA-STW-Integration`
               STATE=$(jq -r '.status' <<<"$MY_RUN")
+              RESULT=$(jq -r '.result' <<<"$MY_RUN")
               echo $STATE
+              echo $RESULT
+              if [ $RESULT == 'failed' ] || [ $RESULT == 'error' ]
+              then
+                exit 1
+              fi
             done
             echo "Done!"
           env:

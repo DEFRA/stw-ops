@@ -18,7 +18,8 @@ parameters:
 name: ${{ parameters.buildMajor }}.${{ parameters.buildMinor }}.$(Rev:rrr)
 
 variables:
-
+- name: branchNameForTag
+  value: ${{ replace(parameters['buildBranch'], '/', '-') }}
 - name: dockerRegistryServiceConnection
   value: AZR-STW-DEV1
 - name: imageRepository
@@ -28,7 +29,7 @@ variables:
 - name: dockerfilePath
   value: '$(Build.SourcesDirectory)/src/STW.StubApi.Presentation/Dockerfile'
 - name: tag
-  value: '${{ parameters.buildBranch }}.$(Build.BuildNumber)'
+  value: '${{ variables.branchNameForTag }}.$(Build.BuildNumber)'
 - name: vmImageName
   value: 'ubuntu-latest'
 - name: branchName
