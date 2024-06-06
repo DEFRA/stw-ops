@@ -26,6 +26,9 @@
         "bcpServiceBaseUrl": {
             "value": "#{{ bcpServiceBaseUrl }}"
         },
+        "commodityCodeBaseUrl": {
+            "value": "#{{ commodityCodeBaseUrl }}"
+        },
         "httpClientTimeout": {
             "value": "#{{ httpClientTimeout }}"
         },
