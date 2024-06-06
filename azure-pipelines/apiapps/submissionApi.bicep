@@ -46,6 +46,10 @@ param subnetName string
 param vnetRg string
 @description('name')
 param name string
+@description('dockerImage')
+param dockerImage string
+@description('dockerTag')
+param dockerTag string
 
 // Check to see if we can find an AppInsights instance
 resource existingAppInsights 'Microsoft.Insights/components@2020-02-02' existing = if (aiExists) {
