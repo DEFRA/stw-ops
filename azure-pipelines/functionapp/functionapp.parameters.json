@@ -20,6 +20,12 @@
         "ServiceBusConnectionString": {
             "value": "#{{ ServiceBusConnectionString }}"
         },
+        "approvedEstablishmentBaseUrl": {
+            "value": "#{{ approvedEstablishmentBaseUrl }}"
+        },
+        "httpClientTimeout": {
+            "value": "#{{ httpClientTimeout }}"
+        },
         "env": {
             "value": "#{{ env }}"
         },
