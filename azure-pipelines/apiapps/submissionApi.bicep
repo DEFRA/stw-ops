@@ -119,11 +119,11 @@ var appSettings = [
 
 // Deploy the Apps
 module apiApp '../../../Infra/modules/Microsoft.Web/apiapp.bicep' = {
-  name: apps.name
+  name: name
   params: {
-    appName: apps.name
+    appName: name
     location: location
-    dockerImageTag: '${apps.dockerImage}:${apps.dockerTag}'
+    dockerImageTag: '${dockerImage}:${dockerTag}'
     containerRegistryName: containerRegistryName
     identityName: identityName
     appServicePlanName: appServicePlanName

@@ -1,0 +1,75 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value" : "#{{ submissionApiAppName }}"
+        },
+        "dockerImage": {
+            "value" : "#{{ dockerImage }}"
+        },
+        "dockerTag": {
+            "value" : "#{{ submissionDockerTag }}"
+        },
+        "appInsightsName": {
+            "value": "#{{ applicationInsightsName }}"
+        },
+        "logAnalyticsNamespaceName": {
+            "value": "#{{ logAnalyticsNamespaceName }}"
+        },
+        "workspaceSKU": {
+            "value": "#{{ workspaceSKU }}"
+        },
+        "workspaceRetention": {
+            "value": "#{{ workspaceRetention }}"
+        },
+        "workspaceDailyQuota": {
+            "value": "#{{ workspaceDailyQuota }}"
+        },
+        "containerRegistryName": {
+            "value": "#{{ acrServerName }}"
+        },
+        "identityName": {
+            "value": "#{{ managedIdentityName }}"
+        },
+        "appServicePlanName": {
+            "value": "#{{ appServicePlanName }}"
+        },
+        "sku": {
+            "value": "#{{ sku }}"
+        },
+        "env": {
+            "value": "#{{ env }}"
+        },
+        "serviceCode": {
+            "value": "#{{ serviceCode }}"
+        },
+        "locationTag": {
+            "value": "#{{ location }}"
+        },
+        "ServiceBusConnectionString": {
+            "value": "#{{ ServiceBusConnectionString }}"
+        },
+        "ServiceBusQueueName": {
+            "value": "#{{ ServiceBusQueueName }}"
+        },
+        "StubApiDatabaseConnectionString": {
+            "value": "#{{ stubApiDatabaseConnectionString }}"
+        },
+        "keyVaultName": {
+            "value": "#{{ keyVaultName }}"
+        },
+        "keyVaultRgName": {
+            "value": "#{{ keyVaultRgName }}"
+        },
+        "vnetName": {
+            "value": "#{{ vnetName }}"
+        },
+        "subnetName": {
+            "value": "#{{ appSubNetName }}"
+        },
+        "vnetRg": {
+            "value": "#{{ vnetRg }}"
+        }
+    }
+}
