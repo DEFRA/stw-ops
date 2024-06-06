@@ -35,7 +35,7 @@ param keyVaultRgName string
 @description('Subnet id')
 param subnetId string
 @description('AppSettings')
-param appSettings object[]
+param appSettings object
 
 @description('The tenant ID for the subscription')
 var tenantId = subscription().tenantId
