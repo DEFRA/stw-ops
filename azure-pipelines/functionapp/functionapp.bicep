@@ -33,6 +33,10 @@ param vnetName string
 param subnetName string
 @description('Vnet resource group')
 param vnetRg string
+@description('Base URL for IPAFFS Approved Establishment Microservice')
+param approvedEstablishmentBaseUrl string
+@description('Timeout in seconds for Http Client')
+param httpClientTimeout int
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
 name: storageAccountName
@@ -174,6 +178,14 @@ resource function 'Microsoft.Web/sites@2021-03-01' = {
         {
           name: 'WEBSITES_ENABLE_APP_SERVICE_STORAGE'
           value: 'false'
+        }
+        {
+          name: 'ApiConfig__ApprovedEstablishmentBaseUrl'
+          value: approvedEstablishmentBaseUrl
+        }
+        {
+          name: 'ApiConfig__Timeout'
+          value: httpClientTimeout
         }
       ]
     }

@@ -34,7 +34,9 @@ variables:
   storageAccountName: devstwinfst1001
   ServiceBusConnectionString: "@Microsoft.KeyVault(SecretUri=https://$(keyVaultNameLower).vault.azure.net/secrets/stw-processing-api-queue-connectionstring/)"
   ServiceBusQueueName: stw-processing-api-queue
-  dockerImage: '$(acrServerName)/$(proj)/stw-processing-api:$(processingTag)'
+  dockerImage: '$(acrServerName)/$(proj)/stw-processing-gapi:$(processingTag)'
+  approvedEstablishmentBaseUrl: "@Microsoft.KeyVault(SecretUri=https://$(keyVaultNameLower).vault.azure.net/secrets/approved-establishment-base-url/)"
+  httpClientTimeout: 30
 
   # API App
   submissionApiAppName: $(proj)-submission-api-$(envLower)
