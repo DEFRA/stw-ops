@@ -34,6 +34,8 @@ param keyVaultName string
 param keyVaultRgName string
 @description('Subnet id')
 param subnetId string
+@description('AppSettings')
+param appSettings object[]
 
 @description('The tenant ID for the subscription')
 var tenantId = subscription().tenantId
@@ -88,28 +90,7 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
       healthCheckPath: '/admin/health'
       ftpsState: 'Disabled'
       alwaysOn: true
-      appSettings: [
-        {
-          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-          value: aiName.properties.InstrumentationKey
-        }
-        {
-          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-          value: aiName.properties.ConnectionString
-        }
-        {
-          name: 'ServiceBusConnectionString'
-          value: ServiceBusConnectionString
-        }
-        {
-          name: 'ServiceBusQueueName'
-          value: ServiceBusQueueName
-        }
-        {
-          name: 'ConnectionStrings__StubApiDatabase'
-          value: StubApiDatabaseConnectionString
-        }
-      ]
+      appSettings: appSettings
     }
   }
   identity: {
