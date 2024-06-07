@@ -36,7 +36,7 @@ param vnetRg string
 @description('Base URL for IPAFFS Approved Establishment Microservice')
 param approvedEstablishmentBaseUrl string
 @description('Timeout in seconds for Http Client')
-param httpClientTimeout int
+param httpClientTimeout string
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
 name: storageAccountName
