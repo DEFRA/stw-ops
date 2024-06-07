@@ -37,6 +37,8 @@ param vnetRg string
 param approvedEstablishmentBaseUrl string
 @description('Timeout in seconds for Http Client')
 param httpClientTimeout string
+@description('Base URL for IPAFFS BCP Microservice')
+param bcpServiceBaseUrl string
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
 name: storageAccountName
@@ -186,6 +188,10 @@ resource function 'Microsoft.Web/sites@2021-03-01' = {
         {
           name: 'ApiConfig__Timeout'
           value: httpClientTimeout
+        }
+        {
+          name: 'ApiConfig__BcpServiceBaseUrl'
+          value: bcpServiceBaseUrl
         }
       ]
     }
