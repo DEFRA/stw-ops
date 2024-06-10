@@ -39,6 +39,7 @@ variables:
   commodityCodeBaseUrl: "@Microsoft.KeyVault(SecretUri=https://$(keyVaultNameLower).vault.azure.net/secrets/commodity-code-base-url/)"
   httpClientTimeout: 30
   bcpServiceBaseUrl: "@Microsoft.KeyVault(SecretUri=https://$(keyVaultNameLower).vault.azure.net/secrets/bcp-service-base-url/)"
+  countriesBaseUrl: "@Microsoft.KeyVault(SecretUri=https://$(keyVaultNameLower).vault.azure.net/secrets/countries-base-url/)"
 
   # API App
   submissionApiAppName: $(proj)-submission-api-$(envLower)
