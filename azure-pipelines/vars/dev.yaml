@@ -37,6 +37,7 @@ variables:
   dockerImage: '$(acrServerName)/$(proj)/stw-processing-api:$(processingTag)'
   approvedEstablishmentBaseUrl: "@Microsoft.KeyVault(SecretUri=https://$(keyVaultNameLower).vault.azure.net/secrets/approved-establishment-base-url/)"
   httpClientTimeout: 30
+  bcpServiceBaseUrl: "@Microsoft.KeyVault(SecretUri=https://$(keyVaultNameLower).vault.azure.net/secrets/bcp-service-base-url/)"
 
   # API App
   submissionApiAppName: $(proj)-submission-api-$(envLower)

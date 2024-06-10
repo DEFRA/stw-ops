@@ -23,6 +23,9 @@
         "approvedEstablishmentBaseUrl": {
             "value": "#{{ approvedEstablishmentBaseUrl }}"
         },
+        "bcpServiceBaseUrl": {
+            "value": "#{{ bcpServiceBaseUrl }}"
+        },
         "httpClientTimeout": {
             "value": "#{{ httpClientTimeout }}"
         },
