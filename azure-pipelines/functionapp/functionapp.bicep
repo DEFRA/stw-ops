@@ -43,6 +43,8 @@ param httpClientTimeout string
 param bcpServiceBaseUrl string
 @description('Base URL for IPAFFS Countries Microservice')
 param countriesBaseUrl string
+@description('Base URL for IPAFFS Field Config Microservice')
+param fieldConfigServiceBaseUrl string
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
 name: storageAccountName
@@ -204,6 +206,10 @@ resource function 'Microsoft.Web/sites@2021-03-01' = {
         {
           name: 'ApiConfig__CountriesBaseUrl'
           value: countriesBaseUrl
+        }
+        {
+          name: 'ApiConfig__FieldConfigServiceBaseUrl'
+          value: fieldConfigServiceBaseUrl
         }
       ]
     }
