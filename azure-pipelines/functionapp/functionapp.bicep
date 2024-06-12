@@ -35,6 +35,8 @@ param subnetName string
 param vnetRg string
 @description('Base URL for IPAFFS Approved Establishment Microservice')
 param approvedEstablishmentBaseUrl string
+@description('Base URL for IPAFFS Commodity Code Microservice')
+param commodityCodeBaseUrl string
 @description('Timeout in seconds for Http Client')
 param httpClientTimeout string
 @description('Base URL for IPAFFS BCP Microservice')
@@ -184,6 +186,10 @@ resource function 'Microsoft.Web/sites@2021-03-01' = {
         {
           name: 'ApiConfig__ApprovedEstablishmentBaseUrl'
           value: approvedEstablishmentBaseUrl
+        }
+        {
+          name: 'ApiConfig__CommodityCodeBaseUrl'
+          value: commodityCodeBaseUrl
         }
         {
           name: 'ApiConfig__Timeout'
