@@ -45,6 +45,9 @@ param subnetName string
 @description('Vnet resource group')
 param vnetRg string
 
+@description('The tenant ID for the subscription')
+var tenantId = subscription().tenantId
+
 // Check to see if we can find an AppInsights instance
 resource existingAppInsights 'Microsoft.Insights/components@2020-02-02' existing = if (aiExists) {
   name: appInsightsName
