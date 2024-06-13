@@ -20,6 +20,18 @@
         "ServiceBusConnectionString": {
             "value": "#{{ ServiceBusConnectionString }}"
         },
+        "approvedEstablishmentBaseUrl": {
+            "value": "#{{ approvedEstablishmentBaseUrl }}"
+        },
+        "bcpServiceBaseUrl": {
+            "value": "#{{ bcpServiceBaseUrl }}"
+        },
+        "commodityCodeBaseUrl": {
+            "value": "#{{ commodityCodeBaseUrl }}"
+        },
+        "httpClientTimeout": {
+            "value": "#{{ httpClientTimeout }}"
+        },
         "env": {
             "value": "#{{ env }}"
         },

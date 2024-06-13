@@ -35,6 +35,10 @@ variables:
   ServiceBusConnectionString: "@Microsoft.KeyVault(SecretUri=https://$(keyVaultNameLower).vault.azure.net/secrets/stw-processing-api-queue-connectionstring/)"
   ServiceBusQueueName: stw-processing-api-queue
   dockerImage: '$(acrServerName)/$(proj)/stw-processing-api:$(processingTag)'
+  approvedEstablishmentBaseUrl: "@Microsoft.KeyVault(SecretUri=https://$(keyVaultNameLower).vault.azure.net/secrets/approved-establishment-base-url/)"
+  commodityCodeBaseUrl: "@Microsoft.KeyVault(SecretUri=https://$(keyVaultNameLower).vault.azure.net/secrets/commodity-code-base-url/)"
+  httpClientTimeout: 30
+  bcpServiceBaseUrl: "@Microsoft.KeyVault(SecretUri=https://$(keyVaultNameLower).vault.azure.net/secrets/bcp-service-base-url/)"
 
   # API App
   submissionApiAppName: $(proj)-submission-api-$(envLower)
