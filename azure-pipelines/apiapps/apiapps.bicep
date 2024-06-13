@@ -109,8 +109,23 @@ module apiApp '../../../Infra/modules/Microsoft.Web/apiapp.bicep' = [for apps in
     ServiceBusConnectionString: ServiceBusConnectionString
     ServiceBusQueueName: ServiceBusQueueName
     StubApiDatabaseConnectionString: StubApiDatabaseConnectionString
-    keyVaultName: keyVaultName
-    keyVaultRgName: keyVaultRgName
     subnetId: mySubnet.id
   }
 }]
+
+// Get a reference to the Managed Identity
+resource uami 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' existing = {
+  name: identityName
+}
+output uamiId string = uami.id
+
+// create the access policy
+module accessPolicy '../Microsoft.KeyVault/accesspolicy.bicep' = {
+  name: 'myAccessPolicy'
+  scope: resourceGroup(keyVaultRgName)
+  params: { 
+    keyVaultName: keyVaultName
+    tenantId: tenantId
+    managedIdId: uami.properties.principalId
+  }
+}
