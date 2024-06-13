@@ -29,6 +29,9 @@
         "commodityCodeBaseUrl": {
             "value": "#{{ commodityCodeBaseUrl }}"
         },
+        "countriesBaseUrl": {
+            "value": "#{{ countriesBaseUrl }}"
+        },
         "httpClientTimeout": {
             "value": "#{{ httpClientTimeout }}"
         },
