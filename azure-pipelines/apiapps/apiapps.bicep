@@ -45,6 +45,9 @@ param subnetName string
 @description('Vnet resource group')
 param vnetRg string
 
+@description('The tenant ID for the subscription')
+var tenantId = subscription().tenantId
+
 // Check to see if we can find an AppInsights instance
 resource existingAppInsights 'Microsoft.Insights/components@2020-02-02' existing = if (aiExists) {
   name: appInsightsName
@@ -109,8 +112,23 @@ module apiApp '../../../Infra/modules/Microsoft.Web/apiapp.bicep' = [for apps in
     ServiceBusConnectionString: ServiceBusConnectionString
     ServiceBusQueueName: ServiceBusQueueName
     StubApiDatabaseConnectionString: StubApiDatabaseConnectionString
-    keyVaultName: keyVaultName
-    keyVaultRgName: keyVaultRgName
     subnetId: mySubnet.id
   }
 }]
+
+// Get a reference to the Managed Identity
+resource uami 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' existing = {
+  name: identityName
+}
+output uamiId string = uami.id
+
+// create the access policy
+module accessPolicy '../../../Infra/modules/Microsoft.KeyVault/accesspolicy.bicep' = {
+  name: 'myAccessPolicy'
+  scope: resourceGroup(keyVaultRgName)
+  params: { 
+    keyVaultName: keyVaultName
+    tenantId: tenantId
+    managedIdId: uami.properties.principalId
+  }
+}

@@ -28,15 +28,8 @@ param ServiceBusConnectionString string
 param ServiceBusQueueName string
 @description('Stub Api database connection string')
 param StubApiDatabaseConnectionString string
-@description('Name of the KeyVault')
-param keyVaultName string
-@description('Resource group of the KeyVault')
-param keyVaultRgName string
 @description('Subnet id')
 param subnetId string
-
-@description('The tenant ID for the subscription')
-var tenantId = subscription().tenantId
 
 // Create the app service plan
 module appServicePlan 'asp.bicep' = {
@@ -126,17 +119,5 @@ resource networkConfig 'Microsoft.Web/sites/networkConfig@2022-03-01' = {
   properties: {
     subnetResourceId: subnetId
     swiftSupported: true
-  }
-}
-
-
-// create the access policy
-module accessPolicy '../Microsoft.KeyVault/accesspolicy.bicep' = {
-  name: 'myAccessPolicy'
-  scope: resourceGroup(keyVaultRgName)
-  params: { 
-    keyVaultName: keyVaultName
-    tenantId: tenantId
-    managedIdId: uami.properties.principalId
   }
 }
