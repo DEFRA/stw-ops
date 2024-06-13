@@ -120,7 +120,7 @@ resource uami 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' exis
 output uamiId string = uami.id
 
 // create the access policy
-module accessPolicy '../Microsoft.KeyVault/accesspolicy.bicep' = {
+module accessPolicy '../../../Infra/modules/Microsoft.KeyVault/accesspolicy.bicep' = {
   name: 'myAccessPolicy'
   scope: resourceGroup(keyVaultRgName)
   params: { 
