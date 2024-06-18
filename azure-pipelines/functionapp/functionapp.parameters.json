@@ -32,6 +32,9 @@
         "countriesBaseUrl": {
             "value": "#{{ countriesBaseUrl }}"
         },
+        "fieldConfigServiceBaseUrl": {
+            "value": "#{{ fieldConfigServiceBaseUrl }}"
+        },
         "httpClientTimeout": {
             "value": "#{{ httpClientTimeout }}"
         },
